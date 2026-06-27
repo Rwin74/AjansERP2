@@ -26,10 +26,13 @@ const menuItems = [
   { path: '/settings', name: 'Ayarlar', icon: Settings },
 ];
 
-export function Sidebar() {
+export function Sidebar({ isOpen, setIsOpen }: { isOpen?: boolean, setIsOpen?: (val: boolean) => void }) {
   return (
-    <aside className="w-64 h-screen glass-panel rounded-none border-y-0 border-l-0 flex flex-col fixed left-0 top-0">
-      <div className="h-16 flex items-center px-6 border-b border-white/10">
+    <aside className={clsx(
+      "w-64 h-screen glass-panel rounded-none border-y-0 border-l-0 flex flex-col fixed left-0 top-0 z-50 transition-transform duration-300",
+      isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+    )}>
+      <div className="h-16 flex items-center justify-between px-6 border-b border-white/10">
         <div className="flex items-center gap-3 text-xl font-bold text-white tracking-wide">
           <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-blue-400 flex items-center justify-center shadow-lg shadow-primary/20">
             A
@@ -44,6 +47,7 @@ export function Sidebar() {
           <NavLink
             key={item.path}
             to={item.path}
+            onClick={() => setIsOpen && setIsOpen(false)}
             className={({ isActive }) =>
               twMerge(
                 clsx(
