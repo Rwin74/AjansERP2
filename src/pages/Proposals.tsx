@@ -122,10 +122,12 @@ export function Proposals() {
            <div className="glass-panel p-6 bg-gradient-to-br from-primary/10 to-transparent border-t-primary/30">
               <h3 className="text-sm font-semibold text-white mb-2">Dönüşüm Oranı</h3>
               <div className="flex items-end gap-2 mb-2">
-                 <span className="text-4xl font-bold text-white">%68</span>
-                 <span className="text-green-400 text-sm font-medium mb-1">↑ %5</span>
+                 <span className="text-4xl font-bold text-white">
+                   %{proposals.length > 0 ? Math.round((proposals.filter(p => p.status === 'Onaylandı').length / proposals.length) * 100) : 0}
+                 </span>
+                 {proposals.length > 0 && <span className="text-green-400 text-sm font-medium mb-1">Gerçek Veri</span>}
               </div>
-              <p className="text-xs text-text-muted">Bu ay gönderilen 24 tekliften 16'sı onaylandı.</p>
+              <p className="text-xs text-text-muted">Toplam gönderilen {proposals.length} tekliften {proposals.filter(p => p.status === 'Onaylandı').length}'si onaylandı.</p>
            </div>
            
            <div className="glass-panel p-6 border-dashed border-2 border-white/10 flex flex-col items-center justify-center text-center gap-3">

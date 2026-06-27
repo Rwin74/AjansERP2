@@ -54,6 +54,40 @@ export function Finance() {
   const totalExpense = transactions.filter(t => t.type === 'gider').reduce((acc, curr) => acc + Number(curr.amount), 0);
   const totalKasa = totalIncome - totalExpense;
 
+  const getMonthlyData = () => {
+    const months = ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara'];
+    const currentMonth = new Date().getMonth();
+    
+    const last6Months = [];
+    for (let i = 5; i >= 0; i--) {
+      let d = new Date();
+      d.setMonth(currentMonth - i);
+      last6Months.push({
+        monthIndex: d.getMonth(),
+        year: d.getFullYear(),
+        name: months[d.getMonth()],
+        gelir: 0,
+        gider: 0
+      });
+    }
+
+    transactions.forEach(t => {
+      const txDate = new Date(t.date || t.created_at);
+      const txMonth = txDate.getMonth();
+      const txYear = txDate.getFullYear();
+      
+      const monthData = last6Months.find(m => m.monthIndex === txMonth && m.year === txYear);
+      if (monthData) {
+        if (t.type === 'gelir') monthData.gelir += Number(t.amount);
+        if (t.type === 'gider') monthData.gider += Number(t.amount);
+      }
+    });
+
+    return last6Months;
+  };
+
+  const chartData = getMonthlyData();
+
   return (
     <div className="space-y-6">
       
@@ -106,7 +140,7 @@ export function Finance() {
            <h3 className="text-lg font-semibold text-white mb-6">6 Aylık Gelir & Gider Analizi</h3>
            <div className="h-72 w-full">
              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={staticMonthlyData} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
+                <BarChart data={chartData} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
                   <XAxis dataKey="name" stroke="#a3a3a3" fontSize={12} tickLine={false} axisLine={false} />
                   <YAxis stroke="#a3a3a3" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(val) => `₺${val/1000}k`} />
