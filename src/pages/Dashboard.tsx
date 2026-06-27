@@ -77,6 +77,33 @@ export function Dashboard() {
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .slice(0, 4);
 
+  const getWeeklyJobData = () => {
+    const days = ['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt'];
+    const data = [];
+    
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      data.push({
+        name: days[d.getDay()],
+        dateStr: d.toISOString().split('T')[0],
+        is: 0
+      });
+    }
+
+    jobs.forEach(j => {
+      const jobDate = j.created_at ? new Date(j.created_at).toISOString().split('T')[0] : '';
+      const dayData = data.find(d => d.dateStr === jobDate);
+      if (dayData) {
+        dayData.is += 1;
+      }
+    });
+
+    return data;
+  };
+
+  const weeklyJobData = getWeeklyJobData();
+
   const stats = [
     { title: "Kayıtlı Müşteri", value: activeCustomersCount.toString(), icon: Users, color: "text-blue-500", bg: "bg-blue-500/10" },
     { title: "Devam Eden İş", value: ongoingJobsCount.toString(), icon: Briefcase, color: "text-indigo-500", bg: "bg-indigo-500/10" },
@@ -136,19 +163,11 @@ export function Dashboard() {
 
           <div className="glass-panel p-6">
              <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-              <TrendingUp className="w-5 h-5 text-emerald-500" /> Aktif İşler Durumu
+              <TrendingUp className="w-5 h-5 text-emerald-500" /> Aktif İşler Durumu (Son 7 Gün)
             </h3>
             <div className="h-64 w-full">
                <ResponsiveContainer width="100%" height="100%">
-                 <LineChart data={[
-                   { name: 'Pzt', is: 12 },
-                   { name: 'Sal', is: 19 },
-                   { name: 'Çar', is: 15 },
-                   { name: 'Per', is: 22 },
-                   { name: 'Cum', is: 28 },
-                   { name: 'Cmt', is: 32 },
-                   { name: 'Paz', is: 38 },
-                 ]} margin={{ top: 5, right: 0, left: -20, bottom: 0 }}>
+                 <LineChart data={weeklyJobData} margin={{ top: 5, right: 0, left: -20, bottom: 0 }}>
                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
                    <XAxis dataKey="name" stroke="#a3a3a3" fontSize={12} tickLine={false} axisLine={false} />
                    <YAxis stroke="#a3a3a3" fontSize={12} tickLine={false} axisLine={false} />
