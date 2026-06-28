@@ -1,5 +1,6 @@
 import { create } from 'zustand';
-import { persist, StateStorage, createJSONStorage } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
+import type { StateStorage } from 'zustand/middleware';
 import { get, set, del } from 'idb-keyval';
 
 export interface HealthScores {
