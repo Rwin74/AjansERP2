@@ -56,6 +56,7 @@ interface ClientStore {
   addClient: (client: Client) => void;
   setActiveClient: (id: string | null) => void;
   updateClient: (id: string, data: Partial<Client>) => void;
+  deleteClient: (id: string) => void;
   completeTask: (clientId: string, taskId: string) => void;
 }
 
@@ -116,6 +117,10 @@ export const useClientStore = create<ClientStore>()(
       setActiveClient: (id) => set({ activeClientId: id }),
       updateClient: (id, data) => set((state) => ({
         clients: state.clients.map(c => c.id === id ? { ...c, ...data } : c)
+      })),
+      deleteClient: (id) => set((state) => ({
+        clients: state.clients.filter(c => c.id !== id),
+        activeClientId: state.activeClientId === id ? null : state.activeClientId
       })),
       completeTask: (clientId, taskId) => set((state) => ({
         clients: state.clients.map(c => {

@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useClientStore } from '../../store/useClientStore';
-import { Building, ChevronDown, Search, Plus, Check } from 'lucide-react';
+import { Building, ChevronDown, Search, Plus, Check, Trash2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export const ClientSelector = () => {
-  const { clients, activeClientId, setActiveClient } = useClientStore();
+  const { clients, activeClientId, setActiveClient, deleteClient } = useClientStore();
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -60,22 +60,38 @@ export const ClientSelector = () => {
             {filteredClients.length > 0 ? (
               <div className="p-2 space-y-1">
                 {filteredClients.map(client => (
-                  <button
-                    key={client.id}
-                    onClick={() => {
-                      setActiveClient(client.id);
-                      setIsOpen(false);
-                      setSearchTerm('');
-                    }}
-                    className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm transition-all ${
+                  <div key={client.id} className={`flex items-center justify-between rounded-lg px-2 py-1.5 transition-all group ${
                       activeClientId === client.id 
-                        ? 'bg-blue-500/10 text-blue-400 font-medium' 
-                        : 'text-gray-300 hover:bg-white/5'
-                    }`}
-                  >
-                    <span className="truncate">{client.name}</span>
-                    {activeClientId === client.id && <Check size={14} />}
-                  </button>
+                        ? 'bg-blue-500/10' 
+                        : 'hover:bg-white/5'
+                  }`}>
+                    <button
+                      onClick={() => {
+                        setActiveClient(client.id);
+                        setIsOpen(false);
+                        setSearchTerm('');
+                      }}
+                      className={`flex-1 flex items-center justify-between text-sm text-left truncate ${
+                        activeClientId === client.id ? 'text-blue-400 font-medium' : 'text-gray-300'
+                      }`}
+                    >
+                      <span className="truncate">{client.name}</span>
+                      {activeClientId === client.id && <Check size={14} className="mr-2" />}
+                    </button>
+                    
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (window.confirm(`${client.name} isimli müşteriyi silmek istediğinize emin misiniz?`)) {
+                          deleteClient(client.id);
+                        }
+                      }}
+                      className="p-1.5 text-gray-500 hover:text-red-400 hover:bg-red-400/10 rounded-md transition-colors opacity-0 group-hover:opacity-100"
+                      title="Müşteriyi Sil"
+                    >
+                      <Trash2 size={14} />
+                    </button>
+                  </div>
                 ))}
               </div>
             ) : (
