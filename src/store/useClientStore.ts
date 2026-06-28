@@ -1,5 +1,6 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, StateStorage, createJSONStorage } from 'zustand/middleware';
+import { get, set, del } from 'idb-keyval';
 
 export interface HealthScores {
   seo: number;
@@ -32,6 +33,15 @@ export interface AITask {
   actionData?: any;
 }
 
+export interface ClientFile {
+  id: string;
+  name: string;
+  type: 'image' | 'doc' | 'pdf' | 'zip' | 'other';
+  size: string;
+  date: string;
+  base64Data?: string;
+}
+
 export interface Client {
   id: string;
   name: string;
@@ -48,6 +58,7 @@ export interface Client {
   healthScores: HealthScores;
   timelineEvents: TimelineEvent[];
   aiTasks: AITask[];
+  files?: ClientFile[];
 }
 
 interface ClientStore {
@@ -58,7 +69,21 @@ interface ClientStore {
   updateClient: (id: string, data: Partial<Client>) => void;
   deleteClient: (id: string) => void;
   completeTask: (clientId: string, taskId: string) => void;
+  addFileToClient: (clientId: string, file: ClientFile) => void;
+  deleteFileFromClient: (clientId: string, fileId: string) => void;
 }
+
+const idbStorage: StateStorage = {
+  getItem: async (name: string): Promise<string | null> => {
+    return (await get(name)) || null;
+  },
+  setItem: async (name: string, value: string): Promise<void> => {
+    await set(name, value);
+  },
+  removeItem: async (name: string): Promise<void> => {
+    await del(name);
+  },
+};
 
 const INITIAL_CLIENTS: Client[] = [
   {
@@ -130,10 +155,23 @@ export const useClientStore = create<ClientStore>()(
             aiTasks: c.aiTasks.map(t => t.id === taskId ? { ...t, status: 'Tamamlandı' as const } : t)
           };
         })
+      })),
+      addFileToClient: (clientId, file) => set((state) => ({
+        clients: state.clients.map(c => {
+          if (c.id !== clientId) return c;
+          return { ...c, files: [file, ...(c.files || [])] };
+        })
+      })),
+      deleteFileFromClient: (clientId, fileId) => set((state) => ({
+        clients: state.clients.map(c => {
+          if (c.id !== clientId) return c;
+          return { ...c, files: (c.files || []).filter(f => f.id !== fileId) };
+        })
       }))
     }),
     {
-      name: 'ajansos-client-storage-v4', // saves to localStorage (versioned to wipe old mocks)
+      name: 'ajansos-client-storage-v5', // Upgraded to v5 for IndexedDB switch
+      storage: createJSONStorage(() => idbStorage),
     }
   )
 );

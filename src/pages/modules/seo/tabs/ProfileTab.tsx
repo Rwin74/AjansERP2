@@ -1,70 +1,143 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useClientStore } from '../../../../store/useClientStore';
-import { Building, Globe, Server, Cloud, MonitorDot, UploadCloud, GitBranch, Box, Search, BarChart2, Target, MapPin, Tag, Share2, Mail, Key, ShieldCheck } from 'lucide-react';
+import { Building, Globe, Server, Cloud, MonitorDot, UploadCloud, GitBranch, Box, Search, BarChart2, Target, MapPin, Tag, Share2, Mail, Key, ShieldCheck, Edit2, Save, X } from 'lucide-react';
+import { CATEGORIES } from '../../../../constants/prepCategories';
 
 export const ProfileTab = () => {
-  const { clients, activeClientId } = useClientStore();
+  const { clients, activeClientId, updateClient } = useClientStore();
   const activeClient = clients.find(c => c.id === activeClientId);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editData, setEditData] = useState<Record<string, Record<string, string>>>({});
 
   if (!activeClient) return null;
 
   const data = activeClient.prepData || {};
 
+  const handleEditStart = () => {
+    setEditData(JSON.parse(JSON.stringify(data)));
+    setIsEditing(true);
+  };
+
+  const handleSave = () => {
+    updateClient(activeClient.id, { prepData: editData });
+    setIsEditing(false);
+  };
+
+  const updateField = (catId: string, field: string, value: string) => {
+    setEditData(prev => ({
+      ...prev,
+      [catId]: {
+        ...(prev[catId] || {}),
+        [field]: value
+      }
+    }));
+  };
+
   const getCategoryIcon = (key: string) => {
-    switch (key) {
-      case 'firma': return <Building size={18} className="text-blue-400" />;
-      case 'domain': return <Globe size={18} className="text-emerald-400" />;
-      case 'hosting': return <Server size={18} className="text-purple-400" />;
-      case 'cloudflare': return <Cloud size={18} className="text-orange-400" />;
-      case 'wordpress': return <MonitorDot size={18} className="text-blue-500" />;
-      case 'ftp': return <UploadCloud size={18} className="text-gray-400" />;
-      case 'github': return <GitBranch size={18} className="text-white" />;
-      case 'vercel': return <Box size={18} className="text-white" />;
-      case 'gsc': return <Search size={18} className="text-blue-300" />;
-      case 'analytics': return <BarChart2 size={18} className="text-yellow-400" />;
-      case 'ads': return <Target size={18} className="text-red-400" />;
-      case 'gmb': return <MapPin size={18} className="text-red-500" />;
-      case 'gtm': return <Tag size={18} className="text-blue-400" />;
-      case 'meta': return <Share2 size={18} className="text-blue-600" />;
-      case 'mail': return <Mail size={18} className="text-gray-300" />;
-      case 'licenses': return <Key size={18} className="text-yellow-500" />;
-      default: return <ShieldCheck size={18} className="text-gray-400" />;
-    }
+    const cat = CATEGORIES.find(c => c.id === key);
+    if (cat) return cat.icon;
+    return <ShieldCheck size={18} className="text-gray-400" />;
   };
 
   const getCategoryTitle = (key: string) => {
-    const titles: Record<string, string> = {
-      firma: 'Firma Bilgileri', domain: 'Domain', hosting: 'Hosting', cloudflare: 'Cloudflare',
-      wordpress: 'WordPress', ftp: 'FTP', github: 'Github', vercel: 'Vercel',
-      gsc: 'Search Console', analytics: 'Google Analytics', ads: 'Google Ads',
-      gmb: 'Google Business Profile', gtm: 'Google Tag Manager', meta: 'Meta Business',
-      mail: 'Kurumsal Mail', licenses: 'Lisanslar'
-    };
-    return titles[key] || key.toUpperCase();
+    const cat = CATEGORIES.find(c => c.id === key);
+    return cat ? cat.title : key.toUpperCase();
   };
 
   const categoriesWithData = Object.entries(data).filter(([_, fields]) => {
-    // Only show category if at least one field is filled
     return Object.values(fields as Record<string, string>).some(val => val.trim() !== '');
   });
 
   return (
     <div className="space-y-6 pb-24">
-      <div className="flex items-center justify-between mb-8 border-b border-white/5 pb-6">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 border-b border-white/5 pb-6 gap-4 md:gap-0">
         <div>
           <h2 className="text-2xl font-bold mb-1 text-white">{activeClient.name} - Müşteri Dosyası</h2>
           <p className="text-sm text-gray-400">Kurulum sırasında girilen tüm veriler, erişim bilgileri ve şifreler.</p>
         </div>
+        
+        {isEditing ? (
+          <div className="flex gap-3">
+            <button onClick={() => setIsEditing(false)} className="btn-secondary flex items-center gap-2">
+              <X size={16} /> İptal
+            </button>
+            <button onClick={handleSave} className="btn-primary flex items-center gap-2">
+              <Save size={16} /> Kaydet
+            </button>
+          </div>
+        ) : (
+          <button onClick={handleEditStart} className="btn-primary flex items-center gap-2">
+            <Edit2 size={16} /> Bilgileri Düzenle
+          </button>
+        )}
       </div>
 
-      {categoriesWithData.length === 0 ? (
+      {isEditing ? (
+        <div className="space-y-6">
+          <div className="bg-blue-500/10 border border-blue-500/20 text-blue-400 px-4 py-3 rounded-lg text-sm mb-6">
+            Şu an düzenleme modundasınız. Sadece doldurduğunuz alanlar "Müşteri Dosyası" önizlemesinde görünür.
+          </div>
+          {CATEGORIES.map((cat) => (
+            <div key={cat.id} className="glass-panel overflow-hidden">
+              <div className="p-4 bg-black/40 border-b border-white/5 flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center">
+                  {cat.icon}
+                </div>
+                <h3 className="font-bold text-lg">{cat.title}</h3>
+              </div>
+              <div className="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {cat.fields.map((field) => {
+                  const isSelect = field.includes('Durum') || field.includes('mı');
+                  const isTextarea = field.includes('Notlar') || field.includes('Sektör');
+                  const val = editData[cat.id]?.[field] || '';
+
+                  return (
+                    <div key={field} className={isTextarea ? 'md:col-span-2 lg:col-span-3' : ''}>
+                      <label className="block text-xs font-medium text-gray-400 mb-2">
+                        {field}
+                      </label>
+                      {isSelect ? (
+                        <select 
+                          className="glass-input w-full text-sm py-2"
+                          value={val}
+                          onChange={(e) => updateField(cat.id, field, e.target.value)}
+                        >
+                          <option value="">Seçiniz...</option>
+                          <option value="Evet">Evet</option>
+                          <option value="Hayır">Hayır</option>
+                          <option value="Beklemede">Beklemede</option>
+                        </select>
+                      ) : isTextarea ? (
+                        <textarea 
+                          className="glass-input w-full text-sm py-2 min-h-[80px]"
+                          placeholder={`${field} giriniz...`}
+                          value={val}
+                          onChange={(e) => updateField(cat.id, field, e.target.value)}
+                        />
+                      ) : (
+                        <input 
+                          type={field.toLowerCase().includes('şifre') ? 'text' : 'text'}
+                          className="glass-input w-full text-sm py-2"
+                          placeholder={`${field} giriniz...`}
+                          value={val}
+                          onChange={(e) => updateField(cat.id, field, e.target.value)}
+                        />
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : categoriesWithData.length === 0 ? (
         <div className="glass-panel p-12 text-center flex flex-col items-center justify-center">
           <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mb-4">
             <Building size={24} className="text-gray-500" />
           </div>
           <h3 className="text-xl font-bold mb-2">Veri Bulunamadı</h3>
           <p className="text-gray-400 max-w-md">
-            Bu müşteri için kaydedilmiş herhangi bir kurulum (SEO Hazırlık) verisi bulunmuyor. Yeni bilgiler eklendiğinde burada görünecektir.
+            Bu müşteri için kaydedilmiş herhangi bir kurulum (SEO Hazırlık) verisi bulunmuyor. "Bilgileri Düzenle" butonuna tıklayarak ekleme yapabilirsiniz.
           </p>
         </div>
       ) : (
