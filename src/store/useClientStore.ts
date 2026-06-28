@@ -43,6 +43,14 @@ export interface ClientFile {
   base64Data?: string;
 }
 
+export interface ClientNote {
+  id: string;
+  title: string;
+  content: string;
+  date: string;
+  color: string;
+}
+
 export interface Client {
   id: string;
   name: string;
@@ -60,6 +68,7 @@ export interface Client {
   timelineEvents: TimelineEvent[];
   aiTasks: AITask[];
   files?: ClientFile[];
+  notes?: ClientNote[];
 }
 
 interface ClientStore {
@@ -72,6 +81,8 @@ interface ClientStore {
   completeTask: (clientId: string, taskId: string) => void;
   addFileToClient: (clientId: string, file: ClientFile) => void;
   deleteFileFromClient: (clientId: string, fileId: string) => void;
+  addNoteToClient: (clientId: string, note: ClientNote) => void;
+  deleteNoteFromClient: (clientId: string, noteId: string) => void;
 }
 
 const idbStorage: StateStorage = {
@@ -167,6 +178,18 @@ export const useClientStore = create<ClientStore>()(
         clients: state.clients.map(c => {
           if (c.id !== clientId) return c;
           return { ...c, files: (c.files || []).filter(f => f.id !== fileId) };
+        })
+      })),
+      addNoteToClient: (clientId, note) => set((state) => ({
+        clients: state.clients.map(c => {
+          if (c.id !== clientId) return c;
+          return { ...c, notes: [note, ...(c.notes || [])] };
+        })
+      })),
+      deleteNoteFromClient: (clientId, noteId) => set((state) => ({
+        clients: state.clients.map(c => {
+          if (c.id !== clientId) return c;
+          return { ...c, notes: (c.notes || []).filter(n => n.id !== noteId) };
         })
       }))
     }),
