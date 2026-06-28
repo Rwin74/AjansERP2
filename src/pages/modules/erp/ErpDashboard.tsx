@@ -52,7 +52,7 @@ export const ErpDashboard: React.FC = () => {
           </div>
           
           {/* Module Sub-navigation */}
-          <div className="flex bg-black/50 p-1 rounded-xl border border-white/5 backdrop-blur-md overflow-x-auto hide-scrollbar w-full md:w-auto md:max-w-3xl">
+          <div className="flex bg-black/50 p-1 rounded-xl border border-white/5 backdrop-blur-md overflow-x-auto hide-scrollbar w-full md:w-auto md:max-w-[calc(100vw-300px)]">
             {TABS.map((tab) => (
               <button
                 key={tab.id}

@@ -51,6 +51,38 @@ export interface ClientNote {
   color: string;
 }
 
+export interface Job {
+  id: string;
+  title: string;
+  status: 'todo' | 'in_progress' | 'done';
+  date: string;
+}
+
+export interface Offer {
+  id: string;
+  offerNo: string;
+  title: string;
+  amount: number;
+  date: string;
+  status: 'Beklemede' | 'Onaylandı' | 'Reddedildi';
+}
+
+export interface Invoice {
+  id: string;
+  invoiceNo: string;
+  amount: number;
+  date: string;
+  status: 'Ödendi' | 'Bekliyor';
+}
+
+export interface FinanceTransaction {
+  id: string;
+  description: string;
+  amount: number;
+  type: 'income' | 'expense';
+  date: string;
+}
+
 export interface Client {
   id: string;
   name: string;
@@ -69,6 +101,10 @@ export interface Client {
   aiTasks: AITask[];
   files?: ClientFile[];
   notes?: ClientNote[];
+  jobs?: Job[];
+  offers?: Offer[];
+  invoices?: Invoice[];
+  financeTransactions?: FinanceTransaction[];
 }
 
 interface ClientStore {
@@ -83,6 +119,20 @@ interface ClientStore {
   deleteFileFromClient: (clientId: string, fileId: string) => void;
   addNoteToClient: (clientId: string, note: ClientNote) => void;
   deleteNoteFromClient: (clientId: string, noteId: string) => void;
+  
+  // ERP Actions
+  addJob: (clientId: string, job: Job) => void;
+  updateJobStatus: (clientId: string, jobId: string, status: Job['status']) => void;
+  deleteJob: (clientId: string, jobId: string) => void;
+  
+  addOffer: (clientId: string, offer: Offer) => void;
+  deleteOffer: (clientId: string, offerId: string) => void;
+  
+  addInvoice: (clientId: string, invoice: Invoice) => void;
+  deleteInvoice: (clientId: string, invoiceId: string) => void;
+  
+  addTransaction: (clientId: string, transaction: FinanceTransaction) => void;
+  deleteTransaction: (clientId: string, transactionId: string) => void;
 }
 
 const idbStorage: StateStorage = {
@@ -191,6 +241,36 @@ export const useClientStore = create<ClientStore>()(
           if (c.id !== clientId) return c;
           return { ...c, notes: (c.notes || []).filter(n => n.id !== noteId) };
         })
+      })),
+      addJob: (clientId, job) => set((state) => ({
+        clients: state.clients.map(c => c.id === clientId ? { ...c, jobs: [job, ...(c.jobs || [])] } : c)
+      })),
+      updateJobStatus: (clientId, jobId, status) => set((state) => ({
+        clients: state.clients.map(c => {
+          if (c.id !== clientId) return c;
+          return { ...c, jobs: (c.jobs || []).map(j => j.id === jobId ? { ...j, status } : j) };
+        })
+      })),
+      deleteJob: (clientId, jobId) => set((state) => ({
+        clients: state.clients.map(c => c.id === clientId ? { ...c, jobs: (c.jobs || []).filter(j => j.id !== jobId) } : c)
+      })),
+      addOffer: (clientId, offer) => set((state) => ({
+        clients: state.clients.map(c => c.id === clientId ? { ...c, offers: [offer, ...(c.offers || [])] } : c)
+      })),
+      deleteOffer: (clientId, offerId) => set((state) => ({
+        clients: state.clients.map(c => c.id === clientId ? { ...c, offers: (c.offers || []).filter(o => o.id !== offerId) } : c)
+      })),
+      addInvoice: (clientId, invoice) => set((state) => ({
+        clients: state.clients.map(c => c.id === clientId ? { ...c, invoices: [invoice, ...(c.invoices || [])] } : c)
+      })),
+      deleteInvoice: (clientId, invoiceId) => set((state) => ({
+        clients: state.clients.map(c => c.id === clientId ? { ...c, invoices: (c.invoices || []).filter(i => i.id !== invoiceId) } : c)
+      })),
+      addTransaction: (clientId, transaction) => set((state) => ({
+        clients: state.clients.map(c => c.id === clientId ? { ...c, financeTransactions: [transaction, ...(c.financeTransactions || [])] } : c)
+      })),
+      deleteTransaction: (clientId, transactionId) => set((state) => ({
+        clients: state.clients.map(c => c.id === clientId ? { ...c, financeTransactions: (c.financeTransactions || []).filter(t => t.id !== transactionId) } : c)
       }))
     }),
     {
