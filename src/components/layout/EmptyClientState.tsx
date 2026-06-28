@@ -4,6 +4,7 @@ import type { AITask } from '../../store/useClientStore';
 import { PlayCircle, Target, Activity, AlertTriangle, TrendingUp, Link2, CheckCircle2, Clock, Globe, ShieldCheck } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { ClientSelector } from './ClientSelector';
 
 export const EmptyClientState = () => {
   const { clients, setActiveClient, completeTask } = useClientStore();
@@ -205,9 +206,23 @@ export const EmptyClientState = () => {
               <h1 className="text-xl font-semibold tracking-tight text-gray-300 uppercase">AI Operasyon Merkezi</h1>
             </div>
             
-            <h2 className="text-5xl font-bold tracking-tight mb-8">
+            <h2 className="text-5xl font-bold tracking-tight mb-4">
               Günaydın <span className="text-white">Atakan</span>.
             </h2>
+
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-8">
+              <div className="bg-white/5 p-4 rounded-xl border border-white/10 flex-1 max-w-sm">
+                <ClientSelector />
+              </div>
+              {!clients.length && (
+                <button 
+                  onClick={() => navigate('/seo-prep')}
+                  className="btn-primary py-3 px-6 shadow-[0_0_15px_rgba(37,99,235,0.3)]"
+                >
+                  Yeni Müşteri Ekle
+                </button>
+              )}
+            </div>
 
             <div className="grid grid-cols-2 md:grid-cols-6 gap-6 mb-10 pb-10 border-b border-white/10">
               <div>
