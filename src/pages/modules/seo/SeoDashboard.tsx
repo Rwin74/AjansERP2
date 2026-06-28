@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { LayoutDashboard, Key, Wrench, FileText, Crosshair, MapPin, Target, BarChart2, Search, BrainCircuit, Link2 } from 'lucide-react';
+import { LayoutDashboard, Key, Wrench, FileText, Crosshair, MapPin, Target, BarChart2, Search, BrainCircuit, Link2, FolderOpen } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useClientStore } from '../../../store/useClientStore';
 import { ClientSelector } from '../../../components/layout/ClientSelector';
@@ -7,6 +7,7 @@ import { EmptyClientState } from '../../../components/layout/EmptyClientState';
 
 // Import Tabs
 import { DashboardTab } from './tabs/DashboardTab';
+import { ProfileTab } from './tabs/ProfileTab';
 import { KeywordsTab } from './tabs/KeywordsTab';
 import { TechSeoTab } from './tabs/TechSeoTab';
 import { ContentTab } from './tabs/ContentTab';
@@ -20,6 +21,7 @@ import { AIAssistantTab } from './tabs/AIAssistantTab';
 
 const TABS = [
   { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard size={16} />, component: DashboardTab },
+  { id: 'profile', label: 'Müşteri Dosyası', icon: <FolderOpen size={16} />, component: ProfileTab },
   { id: 'keywords', label: 'Kelime Takibi', icon: <Key size={16} />, component: KeywordsTab },
   { id: 'tech', label: 'Teknik SEO', icon: <Wrench size={16} />, component: TechSeoTab },
   { id: 'content', label: 'İçerikler', icon: <FileText size={16} />, component: ContentTab },
