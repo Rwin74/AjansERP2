@@ -15,6 +15,7 @@ export interface SettingsStore {
   google: {
     isConnected: boolean;
     accountEmail: string | null;
+    serviceAccountJson: string | null;
   };
   setGeminiSettings: (settings: Partial<SettingsStore['gemini']>) => void;
   setDataForSeoSettings: (settings: Partial<SettingsStore['dataForSeo']>) => void;
@@ -37,6 +38,7 @@ export const useSettingsStore = create<SettingsStore>()(
       google: {
         isConnected: false,
         accountEmail: null,
+        serviceAccountJson: null,
       },
       setGeminiSettings: (s) => set((state) => ({ gemini: { ...state.gemini, ...s } })),
       setDataForSeoSettings: (s) => set((state) => ({ dataForSeo: { ...state.dataForSeo, ...s } })),

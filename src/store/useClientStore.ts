@@ -95,6 +95,8 @@ export interface Client {
     gaPropertyId?: string;
     adsAccountId?: string;
     gmbLocationId?: string;
+    googleAnalyticsId?: string;
+    searchConsoleUrl?: string;
   };
   healthScores: HealthScores;
   timelineEvents: TimelineEvent[];
