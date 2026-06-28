@@ -1,39 +1,65 @@
-import React, { useState } from 'react';
-import { Outlet } from 'react-router-dom';
-import { Sidebar } from './Sidebar';
-import { Topbar } from './Topbar';
-import { CommandPalette } from './CommandPalette';
+import React from 'react';
+import { NavLink, Outlet } from 'react-router-dom';
+import { Rocket, LineChart, Briefcase, Settings, User } from 'lucide-react';
 
-export function MainLayout() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
+export const MainLayout: React.FC = () => {
   return (
-    <div className="flex h-screen bg-background overflow-hidden relative">
-      <CommandPalette />
-      {/* Dynamic Background Effects */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-primary/20 blur-[120px]"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-indigo-500/10 blur-[120px]"></div>
-      </div>
-
-      <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
-      
-      {/* Overlay for mobile */}
-      {isSidebarOpen && (
+    <div className="flex h-screen w-full bg-[#000000] text-gray-100 overflow-hidden font-sans">
+      {/* Narrow Primary Sidebar (Module Selector) */}
+      <nav className="w-16 flex-shrink-0 flex flex-col items-center py-4 glass-sidebar z-50">
+        {/* Logo Area */}
         <div 
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden backdrop-blur-sm"
-          onClick={() => setIsSidebarOpen(false)}
-        />
-      )}
+          onClick={() => {
+            window.location.href = '/seo'; // this will trigger a full reload or we can use useNavigate if we refactor. But window.location is fine for a hard reset to global
+          }}
+          className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center mb-8 shadow-lg cursor-pointer transition-transform hover:scale-105"
+        >
+          <span className="font-bold text-white text-lg">A</span>
+        </div>
 
-      <div className="flex-1 lg:ml-64 flex flex-col min-w-0 z-10 relative">
-        <Topbar onMenuClick={() => setIsSidebarOpen(true)} />
-        <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 custom-scrollbar">
-          <div className="max-w-7xl mx-auto">
-            <Outlet />
+        {/* Modules */}
+        <div className="flex-1 flex flex-col items-center gap-6 mt-4 w-full">
+          <ModuleLink to="/seo-hazirlik" icon={<Rocket size={22} />} tooltip="SEO Hazırlık" />
+          <ModuleLink to="/seo" icon={<LineChart size={22} />} tooltip="SEO Yönetimi" />
+          <ModuleLink to="/erp" icon={<Briefcase size={22} />} tooltip="ERP & İşletme" />
+        </div>
+
+        {/* Bottom Actions */}
+        <div className="flex flex-col items-center gap-4 mt-auto">
+          <ModuleLink to="/settings" icon={<Settings size={20} />} tooltip="Ayarlar" />
+          <div className="w-10 h-10 rounded-xl bg-gray-800 border border-gray-700 flex items-center justify-center cursor-pointer overflow-hidden">
+            <User size={20} className="text-gray-400" />
           </div>
-        </main>
-      </div>
+        </div>
+      </nav>
+
+      {/* Main Content Area (Dynamic based on module) */}
+      <main className="flex-1 flex flex-col h-full overflow-hidden relative z-0">
+        <Outlet />
+      </main>
     </div>
   );
-}
+};
+
+// Tooltip logic can be improved later with a proper Radix/Framer tooltip, keeping it simple for now
+const ModuleLink = ({ to, icon, tooltip }: { to: string; icon: React.ReactNode; tooltip: string }) => {
+  return (
+    <NavLink
+      to={to}
+      className={({ isActive }) =>
+        `relative w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-200 group ${
+          isActive 
+            ? 'bg-blue-500/20 text-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.3)] border border-blue-500/30' 
+            : 'text-gray-400 hover:text-white hover:bg-white/10'
+        }`
+      }
+    >
+      {icon}
+      
+      {/* Simple Tooltip */}
+      <div className="absolute left-14 px-2 py-1 bg-gray-800 text-white text-xs rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap border border-gray-700 z-50 shadow-xl">
+        {tooltip}
+      </div>
+    </NavLink>
+  );
+};

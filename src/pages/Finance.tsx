@@ -22,15 +22,6 @@ import { clsx } from 'clsx';
 import { useStore } from '../store';
 import { Modal } from '../components/ui/Modal';
 
-const staticMonthlyData = [
-  { name: 'Oca', gelir: 45000, gider: 12000 },
-  { name: 'Şub', gelir: 52000, gider: 15000 },
-  { name: 'Mar', gelir: 38000, gider: 18000 },
-  { name: 'Nis', gelir: 65000, gider: 14000 },
-  { name: 'May', gelir: 85000, gider: 22000 },
-  { name: 'Haz', gelir: 72000, gider: 19000 },
-];
-
 export function Finance() {
   const { transactions, fetchTransactions, addTransaction, deleteTransaction } = useStore();
   const [isModalOpen, setIsModalOpen] = useState(false);

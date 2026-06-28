@@ -1,32 +1,24 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { MainLayout } from './components/layout/MainLayout';
-import { Dashboard } from './pages/Dashboard';
-import { CRM } from './pages/CRM';
-import { FirmDetail } from './pages/FirmDetail';
-import { Jobs } from './pages/Jobs';
-import { Finance } from './pages/Finance';
-import { Proposals } from './pages/Proposals';
-import { Domains } from './pages/Domains';
-import { Hosting } from './pages/Hosting';
-import { Vault } from './pages/Vault';
-import { Settings } from './pages/Settings';
+import { SeoPrepDashboard } from './pages/modules/seo-prep/SeoPrepDashboard';
+import { SeoDashboard } from './pages/modules/seo/SeoDashboard';
+import { ErpDashboard } from './pages/modules/erp/ErpDashboard';
+import { SettingsDashboard } from './pages/modules/settings/SettingsDashboard';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<MainLayout />}>
-          <Route index element={<Dashboard />} />
-          <Route path="crm" element={<CRM />} />
-          <Route path="crm/:id" element={<FirmDetail />} />
-          <Route path="jobs" element={<Jobs />} />
-          <Route path="finance" element={<Finance />} />
-          <Route path="proposals" element={<Proposals />} />
-          <Route path="domains" element={<Domains />} />
-          <Route path="hosting" element={<Hosting />} />
-          <Route path="vault" element={<Vault />} />
-          <Route path="settings" element={<Settings />} />
+          {/* Default redirect to SEO Hazırlık */}
+          <Route index element={<Navigate to="/seo-hazirlik" replace />} />
+          
+          {/* Main Modules */}
+          <Route path="seo-hazirlik/*" element={<SeoPrepDashboard />} />
+          <Route path="seo/*" element={<SeoDashboard />} />
+          <Route path="erp/*" element={<ErpDashboard />} />
+          <Route path="settings/*" element={<SettingsDashboard />} />
         </Route>
       </Routes>
     </BrowserRouter>

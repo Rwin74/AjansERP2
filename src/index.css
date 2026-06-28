@@ -1,14 +1,29 @@
 @import "tailwindcss";
 
 @theme {
-  --color-background: #0a0a0a;
-  --color-surface: #171717;
-  --color-primary: #3b82f6;
-  --color-primary-hover: #2563eb;
+  --color-background: #000000;
+  --color-surface: #0a0a0a;
+  --color-surface-hover: #171717;
+  --color-surface-elevated: #111111;
+  --color-primary: #ffffff;
+  --color-primary-foreground: #000000;
+  --color-accent: #3b82f6;
   --color-text: #f5f5f5;
   --color-text-muted: #a3a3a3;
-  --color-border: #262626;
-  --font-sans: 'Inter', sans-serif;
+  --color-text-faint: #525252;
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-hover: rgba(255, 255, 255, 0.15);
+  
+  --color-success: #10b981;
+  --color-success-bg: rgba(16, 185, 129, 0.1);
+  --color-warning: #f59e0b;
+  --color-warning-bg: rgba(245, 158, 11, 0.1);
+  --color-danger: #ef4444;
+  --color-danger-bg: rgba(239, 68, 68, 0.1);
+
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
 }
 
 @layer base {
@@ -18,80 +33,186 @@
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow: hidden; /* App feels like an OS */
+  }
+
+  ::selection {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: #fff;
   }
 }
 
 @layer components {
-  /* Glassmorphism Panel */
+  /* Premium Glassmorphism Panel */
   .glass-panel {
-    background-color: color-mix(in srgb, var(--color-surface) 50%, transparent);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    border-radius: 1rem;
+    background-color: rgba(10, 10, 10, 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05),
+                0 4px 6px -1px rgba(0, 0, 0, 0.5),
+                0 24px 38px 3px rgba(0, 0, 0, 0.4);
+  }
+
+  .glass-header {
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-bottom: 1px solid var(--color-border);
   }
   
-  /* Input Fields */
+  .glass-sidebar {
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-right: 1px solid var(--color-border);
+  }
+
+  /* Premium Inputs */
   .glass-input {
-    background-color: color-mix(in srgb, var(--color-background) 50%, transparent);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--color-border);
     border-radius: 0.5rem;
     padding: 0.5rem 1rem;
     color: var(--color-text);
-    transition: all 0.2s;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);
+  }
+  .glass-input:hover {
+    border-color: var(--color-border-hover);
+    background-color: rgba(255, 255, 255, 0.05);
   }
   .glass-input:focus {
     outline: none;
-    box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary) 50%, transparent);
+    border-color: var(--color-text-muted);
+    background-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 1px var(--color-text-muted);
   }
 
-  /* Primary Button */
+  /* Buttons */
   .btn-primary {
     background-color: var(--color-primary);
-    color: white;
+    color: var(--color-primary-foreground);
     padding: 0.5rem 1rem;
     border-radius: 0.5rem;
-    transition: all 0.2s;
     font-weight: 500;
+    font-size: 0.875rem;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
   }
   .btn-primary:hover {
-    background-color: var(--color-primary-hover);
+    opacity: 0.9;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  }
+  .btn-primary:active {
+    transform: translateY(0);
+  }
+  .btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
   }
 
-  /* Ghost Button */
   .btn-ghost {
     color: var(--color-text-muted);
     padding: 0.5rem 1rem;
     border-radius: 0.5rem;
-    transition: all 0.2s;
     font-weight: 500;
+    font-size: 0.875rem;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .btn-ghost:hover {
     background-color: rgba(255, 255, 255, 0.05);
     color: var(--color-text);
   }
+  
+  .btn-outline {
+    background-color: transparent;
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .btn-outline:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+    border-color: var(--color-border-hover);
+  }
+
+  /* Badge Styles */
+  .badge {
+    padding: 0.25rem 0.6rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border: 1px solid transparent;
+  }
+  .badge-success {
+    background-color: var(--color-success-bg);
+    color: var(--color-success);
+    border-color: rgba(16, 185, 129, 0.2);
+  }
+  .badge-danger {
+    background-color: var(--color-danger-bg);
+    color: var(--color-danger);
+    border-color: rgba(239, 68, 68, 0.2);
+  }
+  .badge-warning {
+    background-color: var(--color-warning-bg);
+    color: var(--color-warning);
+    border-color: rgba(245, 158, 11, 0.2);
+  }
+  .badge-neutral {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--color-text-muted);
+    border-color: var(--color-border);
+  }
+
+  /* Text Gradients */
+  .text-gradient {
+    background: linear-gradient(to right, #ffffff, #a3a3a3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
 }
 
-/* Custom Scrollbar for Dark Mode */
+/* Custom Scrollbar for OS Feel */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #262626;
-  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #404040;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
 }
