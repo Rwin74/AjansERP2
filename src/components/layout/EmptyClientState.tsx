@@ -269,15 +269,15 @@ export const EmptyClientState = () => {
             <div className="space-y-4 overflow-y-auto flex-1 pr-2 hide-scrollbar">
               <div className="flex gap-3 text-sm">
                 <div className="mt-1 w-2 h-2 rounded-full bg-red-500 shrink-0 shadow-[0_0_8px_rgba(239,68,68,0.8)]" />
-                <p className="text-gray-300"><span className="font-medium text-white">Önsa Makine</span> domain süresi bitmesine 12 gün kaldı.</p>
+                <p className="text-gray-300"><span className="font-medium text-white">GünBoyu</span> domain süresi bitmesine 12 gün kaldı.</p>
               </div>
               <div className="flex gap-3 text-sm">
                 <div className="mt-1 w-2 h-2 rounded-full bg-yellow-500 shrink-0 shadow-[0_0_8px_rgba(234,179,8,0.8)]" />
-                <p className="text-gray-300"><span className="font-medium text-white">Rent A Car</span> hosting süresi yaklaşıyor.</p>
+                <p className="text-gray-300"><span className="font-medium text-white">Emir Rent a car</span> hosting süresi yaklaşıyor.</p>
               </div>
               <div className="flex gap-3 text-sm">
                 <div className="mt-1 w-2 h-2 rounded-full bg-red-500 shrink-0 shadow-[0_0_8px_rgba(239,68,68,0.8)]" />
-                <p className="text-gray-300"><span className="font-medium text-white">Çiçek Taksi</span> Analytics bağlantısı koptu.</p>
+                <p className="text-gray-300"><span className="font-medium text-white">Çiçek taksi</span> Analytics bağlantısı koptu.</p>
               </div>
               <div className="flex gap-3 text-sm">
                 <div className="mt-1 w-2 h-2 rounded-full bg-green-500 shrink-0" />
@@ -336,7 +336,7 @@ export const EmptyClientState = () => {
                 <div className="p-4 bg-green-500/5 border border-green-500/10 rounded-xl">
                   <div className="flex justify-between items-start mb-2">
                     <span className="text-green-400 text-xs">★★★★★ Fırsat</span>
-                    <span className="text-gray-500 text-xs">Rent A Car</span>
+                    <span className="text-gray-500 text-xs">Emir Rent a car</span>
                   </div>
                   <p className="text-sm text-gray-300 font-medium mb-2">"Denizli Rent A Car" kelimesinde 3. sıradasınız.</p>
                   <p className="text-xs text-gray-500">İlk sıraya çıkmak için <strong className="text-gray-300">2 kaliteli backlink</strong> ve içerik güncellemesi öneriliyor.</p>
@@ -357,21 +357,21 @@ export const EmptyClientState = () => {
                 <div className="p-4 bg-red-500/5 border border-red-500/20 rounded-xl flex items-start gap-3">
                   <AlertTriangle size={16} className="text-red-400 shrink-0 mt-0.5" />
                   <div>
-                    <p className="text-sm font-medium text-red-200 mb-1">5 adet 404 Hatası (Çiçek Taksi)</p>
+                    <p className="text-sm font-medium text-red-200 mb-1">5 adet 404 Hatası (Çiçek taksi)</p>
                     <p className="text-xs text-gray-500">Hemen 301 yönlendirmesi yapılmalı.</p>
                   </div>
                 </div>
                 <div className="p-4 bg-red-500/5 border border-red-500/20 rounded-xl flex items-start gap-3">
                   <AlertTriangle size={16} className="text-red-400 shrink-0 mt-0.5" />
                   <div>
-                    <p className="text-sm font-medium text-red-200 mb-1">Canonical Eksik (Rent A Car)</p>
+                    <p className="text-sm font-medium text-red-200 mb-1">Canonical Eksik (Emir Rent a car)</p>
                     <p className="text-xs text-gray-500">Kopya içerik riski mevcut.</p>
                   </div>
                 </div>
                 <div className="p-4 bg-red-500/5 border border-red-500/20 rounded-xl flex items-start gap-3">
                   <ShieldCheck size={16} className="text-red-400 shrink-0 mt-0.5" />
                   <div>
-                    <p className="text-sm font-medium text-red-200 mb-1">SSL Yakında Bitecek (Önsa Makine)</p>
+                    <p className="text-sm font-medium text-red-200 mb-1">SSL Yakında Bitecek (GünBoyu)</p>
                     <p className="text-xs text-gray-500">3 gün içinde yenilenmeli.</p>
                   </div>
                 </div>
