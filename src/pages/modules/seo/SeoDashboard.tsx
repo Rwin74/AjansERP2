@@ -37,7 +37,7 @@ export const SeoDashboard: React.FC = () => {
   const { activeClientId } = useClientStore();
 
   if (!activeClientId) {
-    return <EmptyClientState moduleName="SEO Yönetimi" />;
+    return <EmptyClientState />;
   }
 
   const ActiveComponent = TABS.find(t => t.id === activeTab)?.component || DashboardTab;

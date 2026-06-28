@@ -104,9 +104,12 @@ export const SeoPrepDashboard: React.FC = () => {
               disabled={!isReady}
               onClick={() => {
                 const newClient = {
-                  id: Date.now().toString(),
+                  id: crypto.randomUUID(),
                   name: companyName,
                   createdAt: new Date().toISOString(),
+                  healthScores: { seo: 0, google: 0, teknik: 0, icerik: 0, guvenlik: 0, performans: 0, business: 0, toplam: 0 },
+                  timelineEvents: [],
+                  aiTasks: [],
                   prepData: formData,
                 };
                 addClient(newClient);

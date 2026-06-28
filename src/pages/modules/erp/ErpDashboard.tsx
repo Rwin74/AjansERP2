@@ -35,7 +35,7 @@ export const ErpDashboard: React.FC = () => {
   const { activeClientId } = useClientStore();
 
   if (!activeClientId) {
-    return <EmptyClientState moduleName="ERP & İşletme" />;
+    return <EmptyClientState />;
   }
 
   const ActiveComponent = TABS.find(t => t.id === activeTab)?.component || CrmTab;

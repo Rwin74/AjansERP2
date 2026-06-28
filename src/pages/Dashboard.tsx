@@ -79,7 +79,7 @@ export function Dashboard() {
 
   const getWeeklyJobData = () => {
     const days = ['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt'];
-    const data = [];
+    let data: any[] = [];
     
     for (let i = 6; i >= 0; i--) {
       const d = new Date();

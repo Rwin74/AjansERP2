@@ -49,7 +49,7 @@ export function Finance() {
     const months = ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara'];
     const currentMonth = new Date().getMonth();
     
-    const last6Months = [];
+    let last6Months: any[] = [];
     for (let i = 5; i >= 0; i--) {
       let d = new Date();
       d.setMonth(currentMonth - i);
