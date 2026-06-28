@@ -1,7 +1,9 @@
 import React from 'react';
-import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
-import { Target, Clock, CheckCircle2, MoreHorizontal, MessageSquare } from 'lucide-react';
-import { useClientStore, AITask } from '../../../../store/useClientStore';
+import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
+import type { DropResult } from '@hello-pangea/dnd';
+import { Target, Clock, CheckCircle2, MoreHorizontal } from 'lucide-react';
+import { useClientStore } from '../../../../store/useClientStore';
+import type { AITask } from '../../../../store/useClientStore';
 
 interface KanbanBoardProps {
   clientId: string;

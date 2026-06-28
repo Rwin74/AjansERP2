@@ -84,7 +84,7 @@ export const CompetitorAnalysisTab = () => {
                   <div className="h-2 bg-white/5 rounded-full overflow-hidden">
                     <div 
                       className={`h-full ${scoreObj.site === activeClient.name ? 'bg-blue-500' : 'bg-gray-500'}`} 
-                      style={{ width: \`\${scoreObj.score}%\` }} 
+                      style={{ width: `${scoreObj.score}%` }} 
                     />
                   </div>
                 </div>
