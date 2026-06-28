@@ -32,13 +32,13 @@ export const ClientSelector = () => {
       <div className="text-xs text-gray-500 mb-1 font-medium tracking-wide">Aktif Müşteri</div>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center justify-between w-64 bg-white/5 border border-white/10 hover:border-white/20 hover:bg-white/10 rounded-lg px-4 py-2.5 transition-all text-sm font-semibold"
+        className="flex items-center justify-between w-full md:w-64 bg-white/5 border border-white/10 hover:border-white/20 hover:bg-white/10 rounded-lg px-4 py-2.5 transition-all text-sm font-semibold"
       >
-        <div className="flex items-center gap-2 truncate">
-          <Building size={16} className="text-blue-400" />
+        <div className="flex items-center gap-2 truncate pr-2">
+          <Building size={16} className="text-blue-400 shrink-0" />
           <span className="truncate">{activeClient ? activeClient.name : 'Müşteri Seçin...'}</span>
         </div>
-        <ChevronDown size={16} className={`text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        <ChevronDown size={16} className={`text-gray-400 shrink-0 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
       {isOpen && (

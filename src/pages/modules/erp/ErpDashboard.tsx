@@ -43,21 +43,21 @@ export const ErpDashboard: React.FC = () => {
   return (
     <div className="flex flex-col w-full h-full bg-[#000000] text-white">
       {/* Top Header */}
-      <header className="glass-header px-8 py-6 sticky top-0 z-40">
-        <div className="flex justify-between items-end">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight text-gradient mb-1">ERP & İşletme</h1>
-            <p className="text-sm text-gray-400 mb-4">Ajans Genel Yönetim Paneli</p>
+      <header className="glass-header px-4 py-4 md:px-8 md:py-6 sticky top-0 z-40">
+        <div className="flex flex-col md:flex-row md:justify-between items-start md:items-end gap-4 md:gap-0">
+          <div className="w-full md:w-auto">
+            <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-gradient mb-1">ERP & İşletme</h1>
+            <p className="text-xs md:text-sm text-gray-400 mb-4">Ajans Genel Yönetim Paneli</p>
             <ClientSelector />
           </div>
           
           {/* Module Sub-navigation */}
-          <div className="flex bg-black/50 p-1 rounded-xl border border-white/5 backdrop-blur-md overflow-x-auto hide-scrollbar max-w-3xl">
+          <div className="flex bg-black/50 p-1 rounded-xl border border-white/5 backdrop-blur-md overflow-x-auto hide-scrollbar w-full md:w-auto md:max-w-3xl">
             {TABS.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap ${
+                className={`flex items-center gap-2 px-3 py-2 md:px-4 md:py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap ${
                   activeTab === tab.id 
                     ? 'bg-white/10 text-white shadow-sm' 
                     : 'text-gray-400 hover:text-white hover:bg-white/5'
@@ -72,7 +72,7 @@ export const ErpDashboard: React.FC = () => {
       </header>
 
       {/* Main Content Area */}
-      <main className="flex-1 overflow-y-auto p-8 relative">
+      <main className="flex-1 overflow-y-auto p-4 md:p-8 relative">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab + activeClientId} // Re-animate when client changes

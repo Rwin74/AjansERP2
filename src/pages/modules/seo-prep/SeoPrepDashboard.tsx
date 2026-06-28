@@ -73,26 +73,26 @@ export const SeoPrepDashboard: React.FC = () => {
 
   return (
     <div className="flex-1 w-full h-full overflow-y-auto bg-[#000000] text-white">
-      <div className="max-w-5xl mx-auto py-12 px-6">
+      <div className="max-w-5xl mx-auto py-6 px-4 md:py-12 md:px-6">
         
         {/* Header Section */}
-        <div className="glass-panel p-8 mb-8 sticky top-0 z-30 shadow-2xl backdrop-blur-2xl">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-blue-400 font-medium mb-1 uppercase tracking-wider">SEO Onboarding</p>
-              <h1 className="text-4xl font-bold tracking-tight mb-4 text-gradient">{companyName}</h1>
+        <div className="glass-panel p-6 md:p-8 mb-6 md:mb-8 sticky top-0 z-30 shadow-2xl backdrop-blur-2xl">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 md:gap-0">
+            <div className="w-full md:w-auto">
+              <p className="text-xs md:text-sm text-blue-400 font-medium mb-1 uppercase tracking-wider">SEO Onboarding</p>
+              <h1 className="text-2xl md:text-4xl font-bold tracking-tight mb-4 text-gradient">{companyName}</h1>
               
-              <div className="flex items-center gap-6">
+              <div className="flex items-center gap-4 md:gap-6">
                 <div>
-                  <p className="text-xs text-gray-500 mb-1">Hazırlık Durumu</p>
+                  <p className="text-[10px] md:text-xs text-gray-500 mb-1">Hazırlık Durumu</p>
                   <div className="flex items-end gap-2">
-                    <span className="text-3xl font-bold">{progressPercent}%</span>
+                    <span className="text-2xl md:text-3xl font-bold">{progressPercent}%</span>
                   </div>
                 </div>
-                <div className="w-px h-10 bg-white/10" />
+                <div className="w-px h-8 md:h-10 bg-white/10" />
                 <div>
-                  <p className="text-xs text-gray-500 mb-1">Tamamlanan</p>
-                  <div className="flex items-end gap-2 text-xl">
+                  <p className="text-[10px] md:text-xs text-gray-500 mb-1">Tamamlanan</p>
+                  <div className="flex items-end gap-1 md:gap-2 text-lg md:text-xl">
                     <span className="font-semibold text-white">{completedCount}</span>
                     <span className="text-gray-500">/ {CATEGORIES.length}</span>
                   </div>
@@ -116,9 +116,9 @@ export const SeoPrepDashboard: React.FC = () => {
                 setActiveClient(newClient.id);
                 navigate('/seo');
               }}
-              className={`px-8 py-4 rounded-xl font-medium flex items-center gap-3 transition-all duration-300 ${
+              className={`w-full md:w-auto justify-center px-6 md:px-8 py-3 md:py-4 rounded-xl font-medium flex items-center gap-3 transition-all duration-300 ${
                 isReady 
-                  ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:shadow-[0_0_30px_rgba(79,70,229,0.5)] text-white scale-105' 
+                  ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:shadow-[0_0_30px_rgba(79,70,229,0.5)] text-white scale-100 hover:scale-105' 
                   : 'bg-white/5 text-gray-500 cursor-not-allowed border border-white/5'
               }`}
             >
