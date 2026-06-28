@@ -3,15 +3,37 @@ import { useClientStore } from '../../../../store/useClientStore';
 import type { AITask } from '../../../../store/useClientStore';
 import { Target, TrendingUp, ShieldCheck, Search, Activity, CheckCircle2, Clock, Mail, MessageSquare, Plus, ArrowRight, Zap, Globe, FileText, Settings } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNotificationStore } from '../../../../store/useNotificationStore';
+import { KanbanBoard } from '../components/KanbanBoard';
 
 export const DashboardTab = () => {
   const { clients, activeClientId, completeTask } = useClientStore();
   const activeClient = clients.find(c => c.id === activeClientId);
+  const { addNotification } = useNotificationStore();
   const [chatInput, setChatInput] = useState('');
   const [chatMessages, setChatMessages] = useState<{role: 'user'|'ai', content: string}[]>([
     { role: 'ai', content: `Merhaba, ${activeClient?.name} için bugün ne yapabilirim?` }
   ]);
   const [isChatOpen, setIsChatOpen] = useState(false);
+
+  // Simulating Anomaly Detection
+  React.useEffect(() => {
+    if (!activeClient) return;
+    
+    // Yalnızca demonstrasyon amaçlı, 4 saniye sonra bildirim atar
+    const timer = setTimeout(() => {
+      // Sadece şansa bağlı olarak uyarı versin ki her seferinde çıkmasın (%50 ihtimal)
+      if (Math.random() > 0.5) {
+        addNotification({
+          type: 'warning',
+          message: `Dikkat: ${activeClient.name} trafiğinde anlık %3'lük bir düşüş algılandı. AI Asistan'dan analiz isteyebilirsiniz.`,
+          duration: 8000
+        });
+      }
+    }, 4000);
+
+    return () => clearTimeout(timer);
+  }, [activeClient?.id]);
 
   if (!activeClient) return null;
 
@@ -135,63 +157,8 @@ export const DashboardTab = () => {
 
         {/* Right Column: AI Tasks & Timeline */}
         <div className="lg:col-span-2 space-y-6">
-          
-          {/* Actionable AI Tasks */}
-          <div className="glass-panel p-6">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-lg font-bold flex items-center gap-2">
-                <Target size={18} className="text-red-400" />
-                Müşteri AI Görevleri
-              </h3>
-              <span className="text-xs bg-white/10 px-2 py-1 rounded text-gray-400">{openTasks.length} Açık Görev</span>
-            </div>
-
-            <div className="space-y-4">
-              <AnimatePresence>
-                {openTasks.length > 0 ? openTasks.map((task, idx) => (
-                  <motion.div 
-                    key={task.id}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, height: 0, marginBottom: 0 }}
-                    transition={{ delay: idx * 0.1 }}
-                    className="p-5 bg-white/5 border border-white/10 rounded-xl hover:border-white/20 transition-all group"
-                  >
-                    <div className="flex justify-between items-start mb-3">
-                      <div>
-                        <h4 className="text-lg font-semibold text-white mb-1">{task.title}</h4>
-                        <p className="text-sm text-gray-400">{task.reason}</p>
-                      </div>
-                      <span className={`text-xs px-2.5 py-1 rounded-md border font-medium ${getPriorityColor(task.priority)}`}>
-                        {task.priority}
-                      </span>
-                    </div>
-
-                    <div className="flex items-center justify-between pt-4 border-t border-white/5 mt-4">
-                      <div className="flex gap-4 text-xs text-gray-500">
-                        <div className="flex items-center gap-1.5">
-                          <Clock size={14} /> <span className="text-gray-300 font-medium">{task.estimatedMinutes} Dk</span>
-                        </div>
-                        <div className="flex items-center gap-1.5">
-                          <TrendingUp size={14} /> <span className="text-yellow-400">{'★'.repeat(task.seoImpact)}{'☆'.repeat(5 - task.seoImpact)}</span>
-                        </div>
-                      </div>
-                      
-                      {/* One-Click Action Buttons */}
-                      <button onClick={() => handleActionClick(task)} className="btn-primary flex items-center gap-2 py-1.5 px-4 text-sm bg-gradient-to-r from-blue-600 to-indigo-600 border-none hover:shadow-[0_0_15px_rgba(79,70,229,0.5)]">
-                        <CheckCircle2 size={14} /> İşlemi Tamamla
-                      </button>
-                    </div>
-                  </motion.div>
-                )) : (
-                  <div className="p-8 text-center text-gray-400 border border-dashed border-white/10 rounded-xl">
-                    <CheckCircle2 size={32} className="mx-auto mb-3 text-green-500/50" />
-                    <p>Tüm AI görevleri tamamlandı. Müşteri durumu harika!</p>
-                  </div>
-                )}
-              </AnimatePresence>
-            </div>
-          </div>
+          {/* Actionable AI Tasks Kanban Board */}
+          <KanbanBoard clientId={activeClient.id} />
 
           {/* Timeline */}
           <div className="glass-panel p-6">

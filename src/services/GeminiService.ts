@@ -121,4 +121,75 @@ Görev öncelikleri (p) Yüksek, Orta veya Düşük olabilir.`;
       return "Bir hata oluştu. Lütfen tekrar deneyin.";
     }
   }
+
+  static async analyzeCompetitors(clientSite: string, competitors: string[]): Promise<any> {
+    const { gemini } = useSettingsStore.getState();
+    
+    if (!gemini.isConnected || !gemini.apiKey) {
+      return {
+        success: false,
+        summary: "Gemini API bağlantısı kurulamadı.",
+        gaps: [],
+        recommendations: []
+      };
+    }
+
+    try {
+      const promptText = `Sen uzman bir SEO analistisin. Müşterimizin sitesi: ${clientSite} ve rakipleri: ${competitors.join(', ')}.
+Lütfen bu siteleri kıyaslayarak (gerçek veriye ulaşamasan da tahmini ve jenerik ama mantıklı bir) rakip analizi yap.
+Sonucu SADECE aşağıdaki JSON formatında ver, markdown kullanma:
+{
+  "success": true,
+  "summary": "Genel kıyaslama özeti (1-2 cümle)",
+  "scores": [
+    { "site": "Site adı", "score": 85 }
+  ],
+  "gaps": [
+    { "title": "Fırsat Başlığı", "description": "Fırsat açıklaması", "impact": "Yüksek" }
+  ],
+  "recommendations": [
+    "Öneri 1",
+    "Öneri 2"
+  ]
+}`;
+
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${gemini.model}:generateContent?key=${gemini.apiKey}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          contents: [{
+            parts: [{ text: promptText }]
+          }]
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`API Hatası: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      const textResponse = data.candidates?.[0]?.content?.parts?.[0]?.text;
+      
+      let cleanJsonString = textResponse?.trim() || "";
+      if (cleanJsonString.startsWith('```json')) {
+        cleanJsonString = cleanJsonString.replace(/^```json/, '').replace(/```$/, '').trim();
+      } else if (cleanJsonString.startsWith('```')) {
+        cleanJsonString = cleanJsonString.replace(/^```/, '').replace(/```$/, '').trim();
+      }
+
+      return JSON.parse(cleanJsonString);
+
+    } catch (error) {
+      console.error("Gemini API Error:", error);
+      return {
+        success: false,
+        summary: "Analiz sırasında bir hata oluştu.",
+        scores: [],
+        gaps: [],
+        recommendations: []
+      };
+    }
+  }
 }

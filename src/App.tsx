@@ -6,9 +6,12 @@ import { SeoDashboard } from './pages/modules/seo/SeoDashboard';
 import { ErpDashboard } from './pages/modules/erp/ErpDashboard';
 import { SettingsDashboard } from './pages/modules/settings/SettingsDashboard';
 
+import { NotificationToast } from './components/ui/NotificationToast';
+
 function App() {
   return (
     <BrowserRouter>
+      <NotificationToast />
       <Routes>
         <Route path="/" element={<MainLayout />}>
           {/* Default redirect to SEO Hazırlık */}

@@ -29,7 +29,7 @@ export interface AITask {
   seoImpact: number; // 1-5
   reason: string;
   assignee: string;
-  status: 'Açık' | 'Tamamlandı';
+  status: 'Açık' | 'Devam Ediyor' | 'Tamamlandı';
   actionType: 'email' | 'publish' | 'apply_wp' | 'create_task' | 'scan' | 'fix';
   actionData?: any;
 }
@@ -115,6 +115,7 @@ interface ClientStore {
   updateClient: (id: string, data: Partial<Client>) => void;
   deleteClient: (id: string) => void;
   completeTask: (clientId: string, taskId: string) => void;
+  updateAITaskStatus: (clientId: string, taskId: string, status: AITask['status']) => void;
   addFileToClient: (clientId: string, file: ClientFile) => void;
   deleteFileFromClient: (clientId: string, fileId: string) => void;
   addNoteToClient: (clientId: string, note: ClientNote) => void;
@@ -215,6 +216,15 @@ export const useClientStore = create<ClientStore>()(
           return {
             ...c,
             aiTasks: c.aiTasks.map(t => t.id === taskId ? { ...t, status: 'Tamamlandı' as const } : t)
+          };
+        })
+      })),
+      updateAITaskStatus: (clientId, taskId, status) => set((state) => ({
+        clients: state.clients.map(c => {
+          if (c.id !== clientId) return c;
+          return {
+            ...c,
+            aiTasks: c.aiTasks.map(t => t.id === taskId ? { ...t, status } : t)
           };
         })
       })),

@@ -11,7 +11,7 @@ import { ProfileTab } from './tabs/ProfileTab';
 import { KeywordsTab } from './tabs/KeywordsTab';
 import { TechSeoTab } from './tabs/TechSeoTab';
 import { ContentTab } from './tabs/ContentTab';
-import { CompetitorsTab } from './tabs/CompetitorsTab';
+import { CompetitorAnalysisTab } from './tabs/CompetitorAnalysisTab';
 import { GoogleBusinessTab } from './tabs/GoogleBusinessTab';
 import { GoogleAdsTab } from './tabs/GoogleAdsTab';
 import { AnalyticsTab } from './tabs/AnalyticsTab';
@@ -25,7 +25,7 @@ const TABS = [
   { id: 'keywords', label: 'Kelime Takibi', icon: <Key size={16} />, component: KeywordsTab },
   { id: 'tech', label: 'Teknik SEO', icon: <Wrench size={16} />, component: TechSeoTab },
   { id: 'content', label: 'İçerikler', icon: <FileText size={16} />, component: ContentTab },
-  { id: 'competitors', label: 'Rakip Analizi', icon: <Crosshair size={16} />, component: CompetitorsTab },
+  { id: 'competitors', label: 'Rakip Analizi', icon: <Crosshair size={16} />, component: CompetitorAnalysisTab },
   { id: 'gmb', label: 'Google Business', icon: <MapPin size={16} />, component: GoogleBusinessTab },
   { id: 'ads', label: 'Google Ads', icon: <Target size={16} />, component: GoogleAdsTab },
   { id: 'analytics', label: 'Analytics', icon: <BarChart2 size={16} />, component: AnalyticsTab },
