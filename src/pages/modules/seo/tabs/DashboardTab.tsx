@@ -25,23 +25,43 @@ export const DashboardTab = () => {
     return 'text-blue-400 bg-blue-400/10 border-blue-400/20';
   };
 
+  const [isTyping, setIsTyping] = useState(false);
+
   const handleActionClick = (task: AITask) => {
     completeTask(activeClient.id, task.id);
   };
 
-  const handleChatSubmit = (e: React.FormEvent) => {
+  const handleChatSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!chatInput.trim()) return;
+    if (!chatInput.trim() || isTyping) return;
     
-    setChatMessages(prev => [...prev, { role: 'user', content: chatInput }]);
+    const userMsg = chatInput;
+    setChatMessages(prev => [...prev, { role: 'user', content: userMsg }]);
     setChatInput('');
+    setIsTyping(true);
     
-    setTimeout(() => {
-      setChatMessages(prev => [...prev, { 
-        role: 'ai', 
-        content: `Bu isteğinizi kaydettim.` 
-      }]);
-    }, 1000);
+    // Geçici olarak "Yazıyor..." mesajı ekle
+    setChatMessages(prev => [...prev, { role: 'ai', content: '...' }]);
+
+    try {
+      const { GeminiService } = await import('../../../../services/GeminiService');
+      const response = await GeminiService.askAssistant(userMsg, activeClient);
+      
+      setChatMessages(prev => {
+        // "Yazıyor..." mesajını sil ve gerçek yanıtı ekle
+        const newMsgs = [...prev];
+        newMsgs.pop();
+        return [...newMsgs, { role: 'ai', content: response }];
+      });
+    } catch (error) {
+      setChatMessages(prev => {
+        const newMsgs = [...prev];
+        newMsgs.pop();
+        return [...newMsgs, { role: 'ai', content: 'Üzgünüm, bir bağlantı sorunu oluştu.' }];
+      });
+    } finally {
+      setIsTyping(false);
+    }
   };
 
   return (
