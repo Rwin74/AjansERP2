@@ -108,7 +108,7 @@ export const DashboardTab = () => {
             </div>
             
             <div className="mt-6 pt-4 border-t border-white/5 text-xs text-gray-500 text-center">
-              Skor neden düştü? Teknik tarafta iyileştirme gerekiyor.
+              {healthScores?.toplam === 0 ? "Henüz sistem analizi yapılmadı." : "Sistem analiz verileri güncel."}
             </div>
           </div>
         </div>

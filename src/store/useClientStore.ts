@@ -65,7 +65,7 @@ const INITIAL_CLIENTS: Client[] = [
     name: "GünBoyu",
     createdAt: "2026-06-27T11:43:37.261667+00:00",
     erpData: { sector: "Lojistik", contact_person: "Akif", phone: "05052536534", email: "" },
-    healthScores: { seo: 85, google: 90, teknik: 82, icerik: 75, guvenlik: 95, performans: 80, business: 85, toplam: 85 },
+    healthScores: { seo: 0, google: 0, teknik: 0, icerik: 0, guvenlik: 0, performans: 0, business: 0, toplam: 0 },
     timelineEvents: [],
     aiTasks: []
   },
@@ -74,7 +74,7 @@ const INITIAL_CLIENTS: Client[] = [
     name: "Çiçek taksi",
     createdAt: "2026-06-27T13:40:06.393154+00:00",
     erpData: { sector: "Ticari Taksi Tekirdağ Çerkezköy ilçesi", contact_person: "Serhat", phone: "05325149682", email: "" },
-    healthScores: { seo: 88, google: 92, teknik: 85, icerik: 78, guvenlik: 96, performans: 84, business: 88, toplam: 87 },
+    healthScores: { seo: 0, google: 0, teknik: 0, icerik: 0, guvenlik: 0, performans: 0, business: 0, toplam: 0 },
     timelineEvents: [],
     aiTasks: []
   },
@@ -83,7 +83,7 @@ const INITIAL_CLIENTS: Client[] = [
     name: "Emir Rent a car",
     createdAt: "2026-06-27T13:56:24.151034+00:00",
     erpData: { sector: "Rent a car", contact_person: "İsa", phone: "", email: "" },
-    healthScores: { seo: 92, google: 95, teknik: 88, icerik: 85, guvenlik: 98, performans: 90, business: 94, toplam: 92 },
+    healthScores: { seo: 0, google: 0, teknik: 0, icerik: 0, guvenlik: 0, performans: 0, business: 0, toplam: 0 },
     timelineEvents: [],
     aiTasks: []
   },
@@ -92,7 +92,7 @@ const INITIAL_CLIENTS: Client[] = [
     name: "Akgün Oto kurtarma",
     createdAt: "2026-06-27T14:19:13.838273+00:00",
     erpData: { sector: "Oto kurtarma", contact_person: "Mert Akgün", phone: "0552 082 86 19", email: "" },
-    healthScores: { seo: 80, google: 85, teknik: 78, icerik: 70, guvenlik: 90, performans: 75, business: 82, toplam: 80 },
+    healthScores: { seo: 0, google: 0, teknik: 0, icerik: 0, guvenlik: 0, performans: 0, business: 0, toplam: 0 },
     timelineEvents: [],
     aiTasks: []
   },
@@ -101,7 +101,7 @@ const INITIAL_CLIENTS: Client[] = [
     name: "Kodil",
     createdAt: "2026-06-27T14:22:23.603207+00:00",
     erpData: { sector: "Dil ve konuşma", contact_person: "Enes", phone: "0 538 770 55 94", email: "" },
-    healthScores: { seo: 87, google: 89, teknik: 84, icerik: 80, guvenlik: 94, performans: 86, business: 89, toplam: 87 },
+    healthScores: { seo: 0, google: 0, teknik: 0, icerik: 0, guvenlik: 0, performans: 0, business: 0, toplam: 0 },
     timelineEvents: [],
     aiTasks: []
   }
@@ -128,7 +128,7 @@ export const useClientStore = create<ClientStore>()(
       }))
     }),
     {
-      name: 'ajansos-client-storage-v3', // saves to localStorage (versioned to wipe old mocks)
+      name: 'ajansos-client-storage-v4', // saves to localStorage (versioned to wipe old mocks)
     }
   )
 );

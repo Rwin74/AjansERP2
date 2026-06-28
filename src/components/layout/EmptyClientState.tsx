@@ -266,27 +266,8 @@ export const EmptyClientState = () => {
             <h3 className="text-sm font-bold uppercase tracking-wider text-gray-400 mb-6 flex items-center gap-2">
               <AlertTriangle size={16} /> AI Alarm Merkezi
             </h3>
-            <div className="space-y-4 overflow-y-auto flex-1 pr-2 hide-scrollbar">
-              <div className="flex gap-3 text-sm">
-                <div className="mt-1 w-2 h-2 rounded-full bg-red-500 shrink-0 shadow-[0_0_8px_rgba(239,68,68,0.8)]" />
-                <p className="text-gray-300"><span className="font-medium text-white">GünBoyu</span> domain süresi bitmesine 12 gün kaldı.</p>
-              </div>
-              <div className="flex gap-3 text-sm">
-                <div className="mt-1 w-2 h-2 rounded-full bg-yellow-500 shrink-0 shadow-[0_0_8px_rgba(234,179,8,0.8)]" />
-                <p className="text-gray-300"><span className="font-medium text-white">Emir Rent a car</span> hosting süresi yaklaşıyor.</p>
-              </div>
-              <div className="flex gap-3 text-sm">
-                <div className="mt-1 w-2 h-2 rounded-full bg-red-500 shrink-0 shadow-[0_0_8px_rgba(239,68,68,0.8)]" />
-                <p className="text-gray-300"><span className="font-medium text-white">Çiçek taksi</span> Analytics bağlantısı koptu.</p>
-              </div>
-              <div className="flex gap-3 text-sm">
-                <div className="mt-1 w-2 h-2 rounded-full bg-green-500 shrink-0" />
-                <p className="text-gray-400 line-through">Kodil SSL güncellendi.</p>
-              </div>
-              <div className="flex gap-3 text-sm">
-                <div className="mt-1 w-2 h-2 rounded-full bg-green-500 shrink-0" />
-                <p className="text-gray-400 line-through">Sitemap tarandı.</p>
-              </div>
+            <div className="space-y-4 overflow-y-auto flex-1 pr-2 hide-scrollbar flex items-center justify-center">
+              <p className="text-sm text-gray-500 text-center">Şu an aktif bir alarm bulunmuyor.</p>
             </div>
           </div>
 
@@ -297,25 +278,25 @@ export const EmptyClientState = () => {
             </h3>
             <div className="grid grid-cols-2 gap-4 flex-1">
               <div className="bg-white/5 border border-white/5 rounded-xl p-4 flex flex-col justify-center">
-                <p className="text-2xl font-bold text-green-400 mb-1">+17</p>
+                <p className="text-2xl font-bold text-gray-400 mb-1">0</p>
                 <p className="text-xs text-gray-500">Kelime Yükseldi</p>
               </div>
               <div className="bg-white/5 border border-white/5 rounded-xl p-4 flex flex-col justify-center">
-                <p className="text-2xl font-bold text-red-400 mb-1">-3</p>
+                <p className="text-2xl font-bold text-gray-400 mb-1">0</p>
                 <p className="text-xs text-gray-500">Kelime Düştü</p>
               </div>
               <div className="bg-white/5 border border-white/5 rounded-xl p-4 flex flex-col justify-center">
-                <p className="text-xl font-bold text-green-400 mb-1">-%8</p>
+                <p className="text-xl font-bold text-gray-400 mb-1">%0</p>
                 <p className="text-xs text-gray-500">Ads TBM</p>
               </div>
               <div className="bg-white/5 border border-white/5 rounded-xl p-4 flex flex-col justify-center">
-                <p className="text-xl font-bold text-green-400 mb-1">+%21</p>
+                <p className="text-xl font-bold text-gray-400 mb-1">%0</p>
                 <p className="text-xs text-gray-500">Organik Trafik</p>
               </div>
               <div className="bg-white/5 border border-white/5 rounded-xl p-4 flex flex-col justify-center col-span-2">
                 <div className="flex justify-between items-center">
                   <div>
-                    <p className="text-xl font-bold text-white mb-1">42</p>
+                    <p className="text-xl font-bold text-white mb-1">0</p>
                     <p className="text-xs text-gray-500">GMB Telefon Araması</p>
                   </div>
                   <Globe size={24} className="text-blue-500 opacity-50" />
@@ -332,49 +313,13 @@ export const EmptyClientState = () => {
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 h-full">
               {/* Opportunities */}
-              <div className="space-y-4 overflow-y-auto hide-scrollbar">
-                <div className="p-4 bg-green-500/5 border border-green-500/10 rounded-xl">
-                  <div className="flex justify-between items-start mb-2">
-                    <span className="text-green-400 text-xs">★★★★★ Fırsat</span>
-                    <span className="text-gray-500 text-xs">Emir Rent a car</span>
-                  </div>
-                  <p className="text-sm text-gray-300 font-medium mb-2">"Denizli Rent A Car" kelimesinde 3. sıradasınız.</p>
-                  <p className="text-xs text-gray-500">İlk sıraya çıkmak için <strong className="text-gray-300">2 kaliteli backlink</strong> ve içerik güncellemesi öneriliyor.</p>
-                </div>
-
-                <div className="p-4 bg-green-500/5 border border-green-500/10 rounded-xl">
-                  <div className="flex justify-between items-start mb-2">
-                    <span className="text-green-400 text-xs">★★★★☆ Fırsat</span>
-                    <span className="text-gray-500 text-xs">Kodil</span>
-                  </div>
-                  <p className="text-sm text-gray-300 font-medium mb-2">Google Business fotoğrafı eklenmeyeli 42 gün oldu.</p>
-                  <p className="text-xs text-gray-500">Yeni fotoğraf eklenmesi yerel sıralamayı artırır.</p>
-                </div>
+              <div className="space-y-4 overflow-y-auto hide-scrollbar flex items-center justify-center border border-dashed border-white/5 rounded-xl">
+                <p className="text-sm text-gray-500 text-center">Henüz fırsat tespiti yapılmadı.</p>
               </div>
 
               {/* Risks */}
-              <div className="space-y-4 overflow-y-auto hide-scrollbar">
-                <div className="p-4 bg-red-500/5 border border-red-500/20 rounded-xl flex items-start gap-3">
-                  <AlertTriangle size={16} className="text-red-400 shrink-0 mt-0.5" />
-                  <div>
-                    <p className="text-sm font-medium text-red-200 mb-1">5 adet 404 Hatası (Çiçek taksi)</p>
-                    <p className="text-xs text-gray-500">Hemen 301 yönlendirmesi yapılmalı.</p>
-                  </div>
-                </div>
-                <div className="p-4 bg-red-500/5 border border-red-500/20 rounded-xl flex items-start gap-3">
-                  <AlertTriangle size={16} className="text-red-400 shrink-0 mt-0.5" />
-                  <div>
-                    <p className="text-sm font-medium text-red-200 mb-1">Canonical Eksik (Emir Rent a car)</p>
-                    <p className="text-xs text-gray-500">Kopya içerik riski mevcut.</p>
-                  </div>
-                </div>
-                <div className="p-4 bg-red-500/5 border border-red-500/20 rounded-xl flex items-start gap-3">
-                  <ShieldCheck size={16} className="text-red-400 shrink-0 mt-0.5" />
-                  <div>
-                    <p className="text-sm font-medium text-red-200 mb-1">SSL Yakında Bitecek (GünBoyu)</p>
-                    <p className="text-xs text-gray-500">3 gün içinde yenilenmeli.</p>
-                  </div>
-                </div>
+              <div className="space-y-4 overflow-y-auto hide-scrollbar flex items-center justify-center border border-dashed border-white/5 rounded-xl">
+                <p className="text-sm text-gray-500 text-center">Aktif bir risk tespit edilmedi.</p>
               </div>
             </div>
 
